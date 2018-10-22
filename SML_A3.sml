@@ -3,8 +3,14 @@ attempted by Arneish Prateek *)
 
 (* SML 1.1 *)
 exception ValueErr;
-fun sum (m, n) = 
-    if (m>n) then raise ValueErr else if (m=n) then n else m + sum(m+1, n);
+fun sum (m:int, n:int) = 
+        let
+            fun sum_2 (m_2:int, n_2:int) = 
+                if (n_2=0) then m_2 else m_2 + sum_2(m_2+1, n_2-1);
+        in 
+            if (m>n) then raise ValueErr else sum_2 (m,n)
+        end;
+
 (* SML 1.2 *)
 fun bin_coeff (n, r) = 
     if (r>n) then raise ValueErr else if (r=1) then n else (n * bin_coeff(n-1, r-1)) div r;
@@ -18,7 +24,7 @@ fun before_time (time_1:time_triple, time_2:time_triple) =
             if (DD=PM) then HH*60+MM+720 else HH*60+MM;
     in 
         if time_min(time_1)<time_min(time_2) then print ("TRUE\n") else print ("FALSE\n")
-    end
+    end;
 (* SML 2.2 *)
 type time_record = {hour:int, min:int, f:day_night};
 fun before_time_record (time_1: time_record, time_2:time_record) = 
@@ -27,7 +33,7 @@ fun before_time_record (time_1: time_record, time_2:time_record) =
             if (f=PM) then hour*60 + min + 720 else hour*60+min;
     in 
         if time_min(time_1)<time_min(time_2) then print ("TRUE\n") else print ("FALSE\n")
-    end
+    end;
 
 (* SML 3.1 *)
 fun addpoly ([], polytwo) = 
